@@ -1,0 +1,51 @@
+<html>
+
+<body>
+
+<script>
+    function sendmsg() {
+
+        var data = new FormData(document.getElementById("messageform"));
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'sendmessage.php', true);
+        xhr.onload = function () {
+            // do something to response
+            document.getElementById("msg").value="";
+        };
+        xhr.send(data);
+        return false;
+
+    }
+
+
+    function getmsgs() {
+        console.log("Getting Messages");
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+
+            if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+
+                document.getElementById("chat").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "msglog.html", true);
+        xhttp.send();
+    }
+
+setInterval(getmsgs, 500);
+</script>
+
+
+<div id="chat" style="width:50%;height:80%;overflow-y: auto;"></div>
+
+<form id="messageform" onsubmit="return sendmsg()">
+    <input  name="name" placeholder="Enter Name">
+    <input style="width:400px" id="msg" name="msg" placeholder="Enter Message">
+    <input type="submit">
+</form>
+
+
+</body>
+
+</html>
